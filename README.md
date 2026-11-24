@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tienda La Esquina
 
-## Getting Started
+Tienda online construida con **Next.js** durante el curso de Desarrollo Web (Cohorte 2). Muestra un catálogo de productos traído desde una API pública, con página de detalle para cada producto.
 
-First, run the development server:
+Es el mismo proyecto que fuimos construyendo a lo largo del curso: empezó en HTML, CSS y JavaScript, pasó a React y ahora vive en Next.js.
+
+## Qué tiene
+
+- **Catálogo de productos** traído desde [DummyJSON](https://dummyjson.com/docs/products), con el fetch hecho en el servidor (Server Component, sin `useEffect`).
+- **Página de detalle por producto** con ruta dinámica (`/producto/[sku]`).
+- **Navegación** entre páginas con `Link`: Inicio, Contacto, Nosotros y Recursos.
+- **Imágenes optimizadas** con `next/image`.
+- **Estilos** con CSS propio de la tienda más clases de Tailwind, e íconos de react-icons.
+
+## Lo que sigue
+
+- [ ] Detalle completo: precio con descuento, rating con estrellas, stock, envío y garantía.
+- [ ] Carrito de compras con Context, en un panel lateral (Sheet de shadcn).
+- [ ] Publicación en Vercel.
+
+## Tecnologías
+
+| Herramienta | Para qué |
+|---|---|
+| [Next.js 16](https://nextjs.org) (App Router) | Páginas, rutas y fetch en el servidor |
+| [React 19](https://react.dev) | Componentes |
+| [Tailwind CSS 4](https://tailwindcss.com) | Clases de utilidad para estilos |
+| [shadcn/ui](https://ui.shadcn.com) | Componentes listos (Sheet, Button) |
+| [react-icons](https://react-icons.github.io/react-icons/) | Íconos |
+| [DummyJSON](https://dummyjson.com) | API de productos de prueba |
+
+## Cómo correrlo en tu computadora
+
+Necesitás [Node.js](https://nodejs.org) 20.9 o más nuevo.
 
 ```bash
+git clone https://github.com/drbv27/tienda-next.git
+cd tienda-next
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Después abrí [http://localhost:3000](http://localhost:3000) en el navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Estructura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+app/
+├── page.jsx                 # Inicio: trae los productos y muestra el catálogo
+├── layout.jsx               # Header + página + Footer, compartido por todas las páginas
+├── producto/[sku]/page.jsx  # Detalle de un producto (ruta dinámica)
+├── components/              # Header, Footer, Catalogo, ProductCard
+├── acerca/  contacto/  recursos/  carrito/   # Páginas simples
+└── globals.css              # Estilos de la tienda + Tailwind
+components/ui/               # Componentes de shadcn (Sheet, Button)
+```
 
-## Learn More
+## Autor
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proyecto de clase del curso de Desarrollo Web, guiado por el profesor **Diego Bonilla**.
