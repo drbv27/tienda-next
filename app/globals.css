@@ -1,0 +1,857 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =============================================================================
+   styles.css - Estilos de la Tienda La Esquina (clase 25, React)
+   Este archivo ya esta listo: NO hace falta tocarlo.
+   Es el de la clase 22, mas UNA seccion nueva al final: "CLASE 23" (pills,
+   botones y el panel del carrito). Las clases que prende y apaga JavaScript:
+     .activa (pill)  .abierto (panel del carrito)  .total-alto  .modo-oscuro (body)
+   Los colores viven en variables (:root). El modo oscuro solo cambia las variables.
+   ============================================================================= */
+
+:root {
+  /* Marca */
+  --primario: #e8590c;
+  --primario-oscuro: #b3410a;
+  --primario-claro: #ff8a3d;
+  --dorado: #f5b301;
+  --verde: #2f9e44;
+  --rojo: #c92a2a;
+
+  /* Superficies y texto */
+  --fondo: #fff7ec;
+  --texto: #2b2118;
+  --muted: oklch(0.97 0 0);
+  --gris: #7a6a5a; /* clase 28: el gris de texto de la tienda (shadcn pisaba --muted y el texto casi no se veia) */
+  --tarjeta: #ffffff;
+  --borde: #f0e2cf;
+  --suave: #fbeedc;
+
+  /* Detalles */
+  --foto-fondo: radial-gradient(circle at 50% 38%, #ffffff 0%, #fdf1e1 70%, #f8e6cf 100%);
+  --sombra: 0 1px 2px rgba(80, 40, 10, 0.08), 0 8px 24px rgba(80, 40, 10, 0.08);
+  --sombra-alta: 0 4px 6px rgba(80, 40, 10, 0.1), 0 18px 36px rgba(80, 40, 10, 0.18);
+  --aviso-fondo: #fff1bf;
+  --aviso-texto: #6b4300;
+  --pie-fondo: #2b1a10;
+  --pie-texto: #e9d8c6;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Modo oscuro: se prende con document.body.classList.toggle("modo-oscuro") */
+body.modo-oscuro {
+  --fondo: #17171b;
+  --texto: #f2efe9;
+  --gris: #b2aca3;
+  --tarjeta: #23232a;
+  --borde: #35353f;
+  --suave: #2d2d36;
+  --foto-fondo: radial-gradient(circle at 50% 38%, #4a4a56 0%, #34343e 70%, #2a2a33 100%);
+  --sombra: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --sombra-alta: 0 4px 6px rgba(0, 0, 0, 0.5), 0 18px 36px rgba(0, 0, 0, 0.55);
+  --aviso-fondo: #3a3118;
+  --aviso-texto: #ffd86b;
+  --pie-fondo: #0e0e11;
+  --pie-texto: #b9b2a8;
+}
+
+/* Clase 28: borramos el reset "* { margin: 0; padding: 0 }". Tailwind ya trae el suyo
+   (preflight) y este, al no estar en una capa, le ganaba a clases como p-6 o mb-4. */
+
+body {
+  font-family: "Poppins", "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  line-height: 1.5;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  position: relative;
+  color: #fff;
+  padding: 34px 24px 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.22), transparent 45%),
+    radial-gradient(circle at 92% 100%, rgba(245, 179, 1, 0.3), transparent 40%),
+    linear-gradient(135deg, var(--primario-claro) 0%, var(--primario) 45%, #a3330c 100%);
+  box-shadow: 0 6px 20px rgba(120, 40, 5, 0.25);
+}
+body.modo-oscuro .encabezado {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.08), transparent 45%),
+    linear-gradient(135deg, #5a2a10 0%, #3a1c0d 55%, #231109 100%);
+}
+
+.encabezado h1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(80, 20, 0, 0.35);
+}
+/* Logo hecho solo con CSS: un toldo de tienda a rayas */
+.encabezado h1::before {
+  content: "";
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background:
+    linear-gradient(#fff, #fff) 50% 100% / 70% 40% no-repeat,
+    repeating-linear-gradient(90deg, var(--dorado) 0 9px, #fff 9px 18px) 0 0 / 100% 60% no-repeat;
+  box-shadow: 0 6px 14px rgba(80, 20, 0, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+  transform: rotate(-6deg);
+}
+
+.eslogan {
+  margin-top: 8px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.enlace {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.enlace:hover {
+  background: #fff;
+  color: var(--primario-oscuro);
+  transform: translateY(-2px);
+}
+
+/* ---------- Aviso ---------- */
+.aviso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--aviso-fondo);
+  color: var(--aviso-texto);
+  border-bottom: 3px solid var(--dorado);
+  padding: 12px 24px;
+  text-align: center;
+  font-weight: 500;
+}
+.aviso::before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primario);
+  box-shadow: 0 0 0 0 rgba(232, 89, 12, 0.6);
+  animation: latido 1.8s infinite;
+}
+@keyframes latido {
+  70% { box-shadow: 0 0 0 10px rgba(232, 89, 12, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 89, 12, 0); }
+}
+
+/* ---------- Estructura ---------- */
+main { width: 100%; max-width: 1180px; margin: 0 auto; padding: 32px 24px 16px; }
+main h2 {
+  position: relative;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+}
+main h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--primario), var(--dorado));
+}
+
+.contador {
+  display: inline-block;
+  color: var(--gris);
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+  box-shadow: var(--sombra);
+}
+.resumen {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-left: 6px solid var(--verde);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-weight: 700;
+  margin: 0 0 18px;
+  box-shadow: var(--sombra);
+}
+
+.pie {
+  margin-top: 40px;
+  padding: 28px 24px;
+  text-align: center;
+  background: var(--pie-fondo);
+  color: var(--pie-texto);
+  font-size: 0.9rem;
+  border-top: 4px solid var(--primario);
+}
+.pie p:first-child { font-weight: 700; font-size: 1rem; color: #fff; margin-bottom: 4px; }
+
+/* ---------- Tarjetas de producto ---------- */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 24px;
+}
+
+.tarjeta {
+  position: relative;
+  overflow: hidden;
+  background: var(--tarjeta);
+  border: 2px solid transparent;
+  border-radius: 18px;
+  padding: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--sombra);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.tarjeta:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-alta);
+}
+.tarjeta > :not(img) { margin-inline: 18px; }
+
+.tarjeta img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  padding: 18px;
+  background: var(--foto-fondo);
+  transition: transform 0.35s ease;
+}
+.tarjeta:hover img { transform: scale(1.05); }
+
+.tarjeta h3 {
+  margin-top: 12px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.precio {
+  font-weight: 800;
+  color: var(--primario);
+  font-size: 1.55rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.stock { color: var(--gris); font-size: 0.85rem; }
+.categoria {
+  align-self: flex-start;
+  margin-top: 8px;
+  background: var(--suave);
+  color: var(--primario-oscuro);
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+body.modo-oscuro .categoria { color: var(--primario-claro); }
+
+/* ---------- Clases utilitarias (las que prende y apaga JavaScript) ---------- */
+.oculto { display: none !important; }
+
+.destacado,
+.destacado:hover {
+  border-color: var(--dorado);
+  box-shadow: 0 0 0 4px rgba(245, 179, 1, 0.35), 0 14px 34px rgba(245, 179, 1, 0.35);
+  transform: scale(1.03);
+}
+
+/* Agotado: foto en gris y una cinta roja atravesada sobre la foto */
+.agotado .stock { color: var(--rojo); font-weight: 700; }
+.agotado img { filter: grayscale(1); opacity: 0.55; }
+.agotado h3,
+.agotado .precio { opacity: 0.6; }
+.agotado::after {
+  content: "AGOTADO";
+  position: absolute;
+  top: 0;
+  left: -10%;
+  right: -10%;
+  aspect-ratio: 1.1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  background: linear-gradient(
+    transparent calc(50% - 20px),
+    var(--rojo) calc(50% - 20px),
+    var(--rojo) calc(50% + 20px),
+    transparent calc(50% + 20px)
+  );
+  transform: rotate(-11deg);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Oferta: cinta verde en la esquina de la foto */
+.oferta { border-color: var(--verde); }
+.oferta::before {
+  content: "OFERTA";
+  position: absolute;
+  top: 18px;
+  left: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, #2b8a3e, #40c057);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 14px 4px 12px;
+  border-radius: 0 999px 999px 0;
+  box-shadow: 0 4px 10px rgba(47, 158, 68, 0.4);
+}
+
+/* ---------- Insignias del catalogo (bloque 2) ---------- */
+.badge-descuento,
+.badge-bajo {
+  position: absolute;
+  top: 14px;
+  z-index: 2;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.badge-descuento { right: 14px; background: linear-gradient(135deg, #e03131, #c92a2a); }
+.badge-bajo { left: 14px; background: linear-gradient(135deg, #f08c00, #e8590c); }
+
+.lista-categorias {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.lista-categorias li {
+  background: var(--tarjeta);
+  color: var(--primario-oscuro);
+  border: 1px solid var(--borde);
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  box-shadow: var(--sombra);
+}
+body.modo-oscuro .lista-categorias li { color: var(--primario-claro); }
+
+/* ---------- Playlist del reto (canciones) ---------- */
+.cancion {
+  position: relative;
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-left-width: 8px;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--sombra);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.cancion:hover { transform: translateY(-4px); box-shadow: var(--sombra-alta); }
+.cancion h3 { font-size: 1.05rem; font-weight: 700; padding-right: 36px; }
+.cancion p { color: var(--gris); font-size: 0.88rem; }
+.cancion h3 + p { color: var(--primario); font-weight: 600; font-size: 0.95rem; }
+.cancion .duracion {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--texto);
+  background: var(--suave);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.badge-numero1 {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #ffd43b, var(--dorado));
+  color: #3a2a00;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 3px 11px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(245, 179, 1, 0.45);
+}
+.genero-glam-metal { border-left-color: #d6336c; }
+.genero-hard-rock { border-left-color: #e8590c; }
+.genero-rock { border-left-color: #1c7ed6; }
+.genero-pop { border-left-color: #7048e8; }
+.genero-pop-rock { border-left-color: #2f9e44; }
+
+/* ---------- Pantallas chicas ---------- */
+@media (max-width: 600px) {
+  .encabezado h1 { font-size: 1.7rem; }
+  .encabezado h1::before { width: 38px; height: 38px; }
+  main { padding: 24px 16px 8px; }
+  .grilla { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+  .precio { font-size: 1.3rem; }
+}
+
+/* =============================================================================
+   CLASE 23 - Pills, botones y carrito (seccion nueva, todo lo demas es de la 22)
+   ============================================================================= */
+
+/* ---------- Barra de pills y buscador ---------- */
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.pills { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 420px; }
+
+.pill {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--primario-oscuro);
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  padding: 6px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: var(--sombra);
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.pill:hover { transform: translateY(-2px); border-color: var(--primario); }
+.pill.activa {
+  color: #fff;
+  background: linear-gradient(135deg, var(--primario-claro), var(--primario));
+  border-color: var(--primario);
+}
+body.modo-oscuro .pill { color: var(--primario-claro); }
+body.modo-oscuro .pill.activa { color: #fff; }
+
+.buscador {
+  flex: 1 1 240px;
+  max-width: 340px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--texto);
+  background: var(--tarjeta);
+  border: 2px solid var(--borde);
+  border-radius: 999px;
+  padding: 8px 18px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.buscador:focus { border-color: var(--primario); }
+
+/* ---------- Botones del encabezado ---------- */
+.btn-header,
+.btn-carrito {
+  position: absolute;
+  top: 16px;
+  z-index: 60;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.btn-header { left: 24px; }
+/* Solido: tiene que verse tambien cuando queda encima del panel blanco */
+.btn-carrito {
+  right: 24px;
+  color: var(--primario-oscuro);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(80, 20, 0, 0.25);
+}
+.btn-header:hover,
+.btn-carrito:hover { background: #fff; color: var(--primario-oscuro); transform: translateY(-2px); }
+.btn-carrito:hover { background: var(--suave); }
+
+/* ---------- Boton Agregar (dentro de cada tarjeta) ---------- */
+.btn-agregar {
+  margin-top: 12px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primario-claro), var(--primario));
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(232, 89, 12, 0.3);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.btn-agregar:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-2px); }
+.btn-agregar:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+.btn-agregar:disabled {
+  background: var(--suave);
+  color: var(--gris);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- Panel del carrito ---------- */
+.carrito {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  width: min(400px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 78px 22px 22px;
+  background: var(--tarjeta);
+  border-left: 1px solid var(--borde);
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.3s ease, visibility 0s linear 0.3s;
+}
+.carrito.abierto {
+  transform: translateX(0);
+  visibility: visible;
+  box-shadow: var(--sombra-alta);
+  transition: transform 0.3s ease, visibility 0s;
+}
+.carrito h2 { font-size: 1.4rem; font-weight: 800; }
+
+#carrito-lista { flex: 1; overflow-y: auto; }
+.carrito-vacio { color: var(--gris); text-align: center; padding: 40px 0; }
+
+.carrito-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--borde);
+}
+.carrito-item img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: var(--foto-fondo);
+}
+.carrito-nombre { font-size: 0.9rem; font-weight: 600; line-height: 1.25; }
+.carrito-detalle { color: var(--gris); font-size: 0.8rem; margin-top: 2px; }
+.carrito-subtotal { font-weight: 800; color: var(--primario); font-size: 0.95rem; }
+
+.btn-quitar,
+.btn-menos {
+  font: inherit;
+  font-weight: 800;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  color: var(--gris);
+  background: var(--suave);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-quitar:hover { background: var(--rojo); color: #fff; }
+.btn-menos { width: 22px; height: 22px; margin-right: 4px; }
+.btn-menos:hover { background: var(--primario); color: #fff; }
+
+.carrito-mensaje { color: var(--rojo); font-size: 0.85rem; font-weight: 600; }
+.carrito-ahorro { color: var(--verde); font-size: 0.9rem; font-weight: 700; }
+.carrito-mensaje:empty,
+.carrito-ahorro:empty { display: none; }
+
+.carrito-total { font-size: 1.35rem; font-weight: 800; }
+.total-alto { color: var(--verde); }
+
+.btn-vaciar {
+  font: inherit;
+  font-weight: 700;
+  color: var(--rojo);
+  background: transparent;
+  border: 2px solid var(--rojo);
+  padding: 9px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-vaciar:hover { background: var(--rojo); color: #fff; }
+
+/* ---------- Para EL RETO: cupon y finalizar compra (ya estan listos) ---------- */
+.cupon-fila { display: flex; gap: 8px; }
+.cupon-fila input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  color: var(--texto);
+  background: var(--fondo);
+  border: 2px solid var(--borde);
+  border-radius: 12px;
+  padding: 8px 12px;
+  text-transform: uppercase;
+}
+.cupon-fila button,
+.btn-finalizar {
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--verde);
+  border: 0;
+  padding: 9px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.cupon-fila button:hover,
+.btn-finalizar:hover:not(:disabled) { filter: brightness(1.1); }
+.btn-finalizar:disabled { background: var(--suave); color: var(--gris); cursor: not-allowed; }
+.carrito-descuento { color: var(--verde); font-weight: 700; font-size: 0.9rem; }
+.carrito-descuento:empty { display: none; }
+.compra-resumen {
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-left: 6px solid var(--verde);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+}
+.compra-resumen:empty { display: none; }
+
+@media (max-width: 600px) {
+  .encabezado { padding-top: 70px; }
+  .btn-header { left: 16px; }
+  .btn-carrito { right: 16px; }
+}
+
+/* Mensaje del buscador cuando no hay coincidencias (ejercicio 9) */
+.sin-resultados {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--gris);
+  font-weight: 600;
+  padding: 40px 0;
+}
+
+.spinner {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+/* ---------- Clase 28: enlace de la tarjeta (foto + nombre) ---------- */
+.tarjeta > .tarjeta-enlace {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-inline: 0;
+}
+.tarjeta-enlace h3 { margin-inline: 18px; }
+.tarjeta-enlace:hover h3 { color: var(--primario); }
+
+/* Clase 28: con el carrito abierto, el boton del encabezado queda detras (el Sheet trae su propia X) */
+.btn-carrito[data-popup-open] { z-index: 40; }
