@@ -7,14 +7,15 @@ Es el mismo proyecto que fuimos construyendo a lo largo del curso: empezó en HT
 ## Qué tiene
 
 - **Catálogo de productos** traído desde [DummyJSON](https://dummyjson.com/docs/products), con el fetch hecho en el servidor (Server Component, sin `useEffect`).
-- **Página de detalle por producto** con ruta dinámica (`/producto/[sku]`).
+- **Página de detalle por producto** con ruta dinámica (`/producto/[id]`): precio con descuento, rating con estrellas, stock, envío, garantía y secciones desplegables (Accordion de shadcn).
+- **Página 404 propia** cuando el producto no existe (`notFound()`).
 - **Navegación** entre páginas con `Link`: Inicio, Contacto, Nosotros y Recursos.
 - **Imágenes optimizadas** con `next/image`.
 - **Estilos** con CSS propio de la tienda más clases de Tailwind, e íconos de react-icons.
 
 ## Lo que sigue
 
-- [ ] Detalle completo: precio con descuento, rating con estrellas, stock, envío y garantía.
+- [x] Detalle completo: precio con descuento, rating con estrellas, stock, envío y garantía.
 - [ ] Carrito de compras con Context, en un panel lateral (Sheet de shadcn).
 - [ ] Publicación en Vercel.
 
@@ -25,7 +26,7 @@ Es el mismo proyecto que fuimos construyendo a lo largo del curso: empezó en HT
 | [Next.js 16](https://nextjs.org) (App Router) | Páginas, rutas y fetch en el servidor |
 | [React 19](https://react.dev) | Componentes |
 | [Tailwind CSS 4](https://tailwindcss.com) | Clases de utilidad para estilos |
-| [shadcn/ui](https://ui.shadcn.com) | Componentes listos (Sheet, Button) |
+| [shadcn/ui](https://ui.shadcn.com) | Componentes listos (Sheet, Button, Accordion) |
 | [react-icons](https://react-icons.github.io/react-icons/) | Íconos |
 | [DummyJSON](https://dummyjson.com) | API de productos de prueba |
 
@@ -48,11 +49,13 @@ Después abrí [http://localhost:3000](http://localhost:3000) en el navegador.
 app/
 ├── page.jsx                 # Inicio: trae los productos y muestra el catálogo
 ├── layout.jsx               # Header + página + Footer, compartido por todas las páginas
-├── producto/[sku]/page.jsx  # Detalle de un producto (ruta dinámica)
+├── producto/[id]/
+│   ├── page.jsx             # Detalle de un producto (ruta dinámica)
+│   └── not-found.jsx        # Lo que se ve si el producto no existe
 ├── components/              # Header, Footer, Catalogo, ProductCard
 ├── acerca/  contacto/  recursos/  carrito/   # Páginas simples
 └── globals.css              # Estilos de la tienda + Tailwind
-components/ui/               # Componentes de shadcn (Sheet, Button)
+components/ui/               # Componentes de shadcn (Sheet, Button, Accordion)
 ```
 
 ## Autor
