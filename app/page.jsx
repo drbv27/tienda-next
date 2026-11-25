@@ -1,6 +1,6 @@
 import Catalogo from "./components/Catalogo"
 
-const URL_PRODUCTOS = "https://dummyjson.com/products?limit=50"
+const URL_PRODUCTOS = "https://dummyjson.com/products?limit=190"
 
 const Home = async () => {
   const res = await fetch(URL_PRODUCTOS)
