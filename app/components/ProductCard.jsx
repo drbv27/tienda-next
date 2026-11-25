@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import BotonAgregar from "./BotonAgregar"
 
 
 const ProductCard = ({producto}) => {
@@ -14,7 +15,7 @@ const ProductCard = ({producto}) => {
       <p className="precio">$ {precio}</p>
       <p className="stock">{stock} unidades</p>
       <span className="categoria">{categoria}</span>
-      <button>Agregar</button>
+      <BotonAgregar producto={producto}/>
     </article>
   )
 }
