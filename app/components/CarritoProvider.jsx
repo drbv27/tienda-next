@@ -20,9 +20,10 @@ const CarritoProvider = ({children}) => {
     const total = carrito.reduce((acc,item) => acc + item.precio*item.cantidad,0)
 
     const agregar = (producto) => {
+
         const existe = carrito.some(item => item.id === producto.id)
         if(existe){
-            setCarrito(carrito.map( item => item.id===producto.id ? {...item, cantidad:cantidad+1} : item))
+            setCarrito(carrito.map( item => item.id===producto.id ? {...item, cantidad:item.cantidad+1} : item))
         }else{
             setCarrito([...carrito,{...producto,cantidad:1}])
         }
@@ -36,9 +37,21 @@ const CarritoProvider = ({children}) => {
         setCarrito([])
     }
 
+    const aumentar = (id) =>{
+        setCarrito(carrito
+            .map( item => item.id===id && item.cantidad < item.stock ? {...item, cantidad:item.cantidad+1} : item))
+    }
+
+    const disminuir = (id) => {
+        setCarrito(carrito
+            .map( item => item.id===id ? {...item, cantidad:item.cantidad-1} : item)
+            .filter(item => item.cantidad > 0)
+        )
+    }
+
     //3. compartir todo lo que este en value lo puede usar cualquier otro componente
   return (
-    <CarritoContext.Provider value={{carrito,unidades,total,agregar,quitar,vaciar}}>
+    <CarritoContext.Provider value={{carrito,unidades,total,agregar,quitar,vaciar,aumentar,disminuir}}>
       {children}
     </CarritoContext.Provider>
   )

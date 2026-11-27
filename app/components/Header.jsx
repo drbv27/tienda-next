@@ -1,10 +1,11 @@
 import Link from "next/link"
+import CarritoSheet from "./CarritoSheet"
 
 const Header = () => {
   return (
     <header className="encabezado">
         <button className="btn-header">Modo Oscuro</button>
-        <Link href={"/carrito"} className="btn-carrito">Carrito (0)</Link>
+        <CarritoSheet />
         <h1>Tienda la Esquina</h1>
         <p className="eslogan">Todo lo que necesitas, a la vuelta de la esquina</p>
         <nav className="flex justify-end gap-2">

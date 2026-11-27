@@ -15,7 +15,7 @@ const BotonAgregar = ({producto}) => {
     }
   return (
     <button
-        className="btn-agregar flex item-center justify-center gap-2"
+        className="btn-agregar flex items-center justify-center gap-2"
         disabled={producto.stock===0}
         onClick={agregarCarrito}
     >

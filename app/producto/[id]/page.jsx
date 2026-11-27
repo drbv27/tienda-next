@@ -86,8 +86,8 @@ const ProductPage = async ({ params }) => {
                     <AccordionItem value="item-1">
                         <AccordionTrigger>Comments:</AccordionTrigger>
                         <AccordionContent>
-                            {pdt.reviews.map((review)=>(
-                                <div>
+                            {pdt.reviews.map((review,index)=>(
+                                <div key={index}>
                                     <h4 className="text-sm font-semibold">{review.reviewerName} <span className="text-orange-700 font-bold">{review.rating}</span></h4>
                                     <p className="text-xs text-gray-600">{review.comment} - {review.date}</p>
                                 </div>
